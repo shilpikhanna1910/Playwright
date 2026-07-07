@@ -10,12 +10,17 @@ await page.goto("https://demo.automationtesting.in/Register.html");
 //await expect(web1).toContainText('WebT');//it will check that it contains a part of text or not
 //await expect(web1).toContainText('Webble');//broken parts are npt allowed so it will not run
 //toHaveCount()
-const drpc=await page.locator("//li[@class='dropdown']");
-await expect(drpc).toHaveCount(4);
+// const drpc=await page.locator("//li[@class='dropdown']");
+// await expect(drpc).toHaveCount(4);
 //toHaveAttribute()
 // const rad=await page.locator("//input[@value='Male']");
 // await expect(rad).toHaveAttribute('name','radiooptions');
 await page.waitForTimeout(5000);
+//toEqual()
+const email=await page.locator("//h2[text()='Register']").textContent();
+await expect(email).toEqual("Register");
+await page.waitForTimeout(5000);
+
 })
 
 
