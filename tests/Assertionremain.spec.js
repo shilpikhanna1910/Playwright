@@ -20,7 +20,9 @@ await page.waitForTimeout(5000);
 const email=await page.locator("//h2[text()='Register']").textContent();
 await expect(email).toEqual("Register");
 await page.waitForTimeout(5000);
-
+//tocontain for array
+const array=await page.locator("//li[@class='dropdown']").nth(0).textContent();
+await expect(array).toContain("SwitchTo");
 })
 
 
