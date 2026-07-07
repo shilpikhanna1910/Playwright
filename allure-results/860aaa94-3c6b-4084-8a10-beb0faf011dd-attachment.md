@@ -1,0 +1,89 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Datadriven.spec.js >> Data driven Orange HRM-halsd
+- Location: tests\Datadriven.spec.js:5:9
+
+# Error details
+
+```
+Error: expect(page).toHaveURL(expected) failed
+
+Expected pattern: /dashboard/
+Received string:  "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+Timeout: 5000ms
+
+Call log:
+  - Expect "toHaveURL" with timeout 5000ms
+    - unexpected value "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+    - waiting for" https://opensource-demo.orangehrmlive.com/web/index.php/auth/validate" navigation to finish...
+    - navigated to "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+    11 × unexpected value "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"
+
+```
+
+```yaml
+- img "company-branding"
+- heading "Login" [level=5]
+- alert:
+  - text: 
+  - paragraph: Invalid credentials
+- paragraph: "Username : Admin"
+- paragraph: "Password : admin123"
+- text:  Username
+- textbox "Username"
+- text:  Password
+- textbox "Password"
+- button "Login"
+- paragraph: Forgot your password?
+- link:
+  - /url: https://www.linkedin.com/company/orangehrm/mycompany/
+- link:
+  - /url: https://www.facebook.com/OrangeHRM/
+- link:
+  - /url: https://twitter.com/orangehrm?lang=en
+- link:
+  - /url: https://www.youtube.com/c/OrangeHRMInc
+- paragraph: OrangeHRM OS 5.8
+- paragraph:
+  - text: © 2005 - 2026
+  - link "OrangeHRM, Inc":
+    - /url: http://www.orangehrm.com
+  - text: . All rights reserved.
+- img "orangehrm-logo"
+```
+
+# Test source
+
+```ts
+  1  | import{test,expect} from'@playwright/test';
+  2  | import testData from '../allure/data/userData.json';
+  3  | for(const data of testData)
+  4  | {
+  5  |     test(`Data driven Orange HRM-${data.Username}`,async({page})=>
+  6  |     {
+  7  |     await page.goto("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+  8  |     await page.locator("//input[@placeholder='Username']").fill(data.Username);
+  9  |     await page.locator("//input[@placeholder='Password']").fill(data.Password);
+  10 |     await page.locator("//button[@type='submit']").click();
+  11 |     // Valid Login
+  12 |     // Valid Login
+  13 |     // if(data.Username === "Admin" && data.Password === "admin123")
+  14 |     // {
+> 15 |         await expect(page).toHaveURL(/dashboard/);
+     |                            ^ Error: expect(page).toHaveURL(expected) failed
+  16 |     // }
+  17 |     // else
+  18 |     // {
+  19 |     // await expect(page.locator("//p[text()='Invalid credentials']")).toBeVisible();
+  20 |     // }
+  21 |     await page.waitForTimeout(3000);
+  22 | 
+  23 |     })
+  24 | }
+```
